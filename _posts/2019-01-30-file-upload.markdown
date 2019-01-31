@@ -86,8 +86,17 @@ for(var i=0;i<storedFiles.length;i++) {
 ```
 [참고문서](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData)  
 전송 전, storedFiles에 담긴 내용들을 FormData에 추가해준다.  
+
+
+```
+var formData = new FormData();
+
+formData.append("files", storedFiles);
+```
+위와 같이 FormData에 array를 그대로 담은 경우, 뒤에 나올 Controller예제에서 parameter로 인식하지 못한다.  
+이유는 아직까지 잘 모르겠지만, 이것때문에 많이 헤맸다.
 <br><br>
-__이제 전송된 데이터들을 저장해볼까?__
+__그럼, 이제 전송된 데이터들을 저장해볼까?__
 <br>
 * * *
 
@@ -95,19 +104,46 @@ __이제 전송된 데이터들을 저장해볼까?__
 
 ```
 @PostMapping("/upload")
-public ... uploadFile(@RequestParam("files") MultipartFile[] files) {
-    for (int i = 0; i < files.length; i++) {
-        byte[] bytes = files[i].getBytes();
-        Path path = Paths.get(UPLOADED_FOLDER, files[i].getOriginalFilename());
-        
-        Files.createDirectories(path.getParent());
+public ResponseEntity<?> uploadFile(@RequestParam("files") MultipartFile[] files) {
+    logger.debug("Multiple file upload!");
+
+    // Get file name
+    String uploadedFileName = Arrays.stream(uploadfiles).map(x -> x.getOriginalFilename())
+            .filter(x -> !StringUtils.isEmpty(x)).collect(Collectors.joining(" , "));
+
+    if (StringUtils.isEmpty(uploadedFileName)) {
+        return new ResponseEntity("please select a file!", HttpStatus.OK);
+    }
+
+    try {
+        saveUploadedFiles(Arrays.asList(uploadfiles));
+    } catch (IOException e) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    return new ResponseEntity("Successfully uploaded - "
+            + uploadedFileName, HttpStatus.OK);
+
+}
+
+//save file
+private void saveUploadedFiles(List<MultipartFile> files) throws IOException {
+
+    for (MultipartFile file : files) {
+        if (file.isEmpty()) {
+            continue; //next pls
+        }
+
+        byte[] bytes = file.getBytes();
+        Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
         Files.write(path, bytes);
     }
 }
 ```
 MultipartFile[]로 FormData에 담은 파일정보들을 담아온다.
 그럼 이제 담아온 파일들은 특정 경로에 file을 생성한다.  
-위의 Controller 코드는 를 참고하였다.
+위의 소스는 [이 포스트](https://www.mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/)를 참고하였다.  
+ajax로 Spring 파일 업로드 예제가 너무나도 잘 되어있다!
 
 <br><br><br><br><br>
 **느낀점**
