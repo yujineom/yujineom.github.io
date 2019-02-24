@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Java8의 default methods"
-date:   2019-01-30
+date:   2019-02-21
 author: yujin eom
 categories: rookie
 ---
