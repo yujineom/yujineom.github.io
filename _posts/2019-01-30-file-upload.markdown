@@ -3,7 +3,7 @@ layout: post
 title:  "간단한 File Upload 구현하기 - 초보주의 (Spring Boot, Javascript)"
 date:   2019-01-30
 author: yujin eom
-categories: rookie
+categories: spring javascript
 ---
 
 메일 서비스를 개발하면서, 개발 1주차에 메일 쓰기를 담당하게 되었다.  
