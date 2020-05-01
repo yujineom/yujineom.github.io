@@ -2,7 +2,8 @@
 layout: page
 title: About
 permalink: /about/
+main_nav: true
 ---
 
-**열심히 공부중인 개발자**
-- 2019.01.02 ~ NHN Entertainment
+- 2017.02 ~ 2018.12 GS ITM
+- 2019.01 ~         NHN
