@@ -15,7 +15,7 @@ __그렇다면 너무나도 간단하고 심플한 파일 업로드를 구현해
 <br><br>
 먼저 파일을 첨부할 수 있도록 input 태그를 추가한다.
 
-```
+```html
 <input type="file" name="file" id="file-element" multiple>
 ```
 
@@ -30,7 +30,7 @@ multiple 속성을 추가하면, 여러 파일을 한 번에 선택할 수 있�
 
 
 
-```
+```javascript
 var storedFiles = [];
 
 element.addEventListener('change', function () {        
@@ -61,7 +61,7 @@ li 에 파일명, 사이즈 속성을 이용하여 내용들을 만들어주고 
 간단하게 li 태그내에 위치한 삭제 버튼에 대하여 click 이벤트를 달아준다.
 
 
-```
+```javascript
 btnRemove.addEventListener('click', function () {
   var index	 = li.index();
   storedFiles.splice(index, 1);
@@ -77,7 +77,7 @@ btnRemove.addEventListener('click', function () {
 <br><br><br>
 그럼 이제 첨부파일을 포함한 메일 내용들을 실제로 submit 해보자.
 
-```
+```javascript
 var formData = new FormData();
 
 for(var i=0;i<storedFiles.length;i++) {
@@ -88,7 +88,7 @@ for(var i=0;i<storedFiles.length;i++) {
 전송 전, storedFiles에 담긴 내용들을 FormData에 추가해준다.  
 
 
-```
+```javscript
 var formData = new FormData();
 
 formData.append("files", storedFiles);
@@ -102,7 +102,7 @@ __그럼, 이제 전송된 데이터들을 저장해볼까?__
 
 
 
-```
+```java
 @PostMapping("/upload")
 public ResponseEntity<?> uploadFile(@RequestParam("files") MultipartFile[] files) {
     logger.debug("Multiple file upload!");
