@@ -11,7 +11,7 @@ exclude:
 # Site settings
 title: WENMOE IS EOMNEW
 subtitle: 눈물나는 삽질 기록기🖊
-email: nacom1994@gmail.com
+# email: nacom1994@gmail.com
 name: yujin eom
 description: 
 #A simple yet classy theme for your Jekyll website or blog.
